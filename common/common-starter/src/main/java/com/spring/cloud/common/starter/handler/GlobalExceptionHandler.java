@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ServiceException.class)
     public ApiResult<?> handleServiceException(ServiceException e) {
         log.error("service exception", e);
-        return new ApiResult<>(e);
+        return new ApiResult<>(e.getCode(), e.getMessage());
     }
 
     private void sendError(int code, String msg) throws IOException {
