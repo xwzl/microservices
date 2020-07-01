@@ -1,0 +1,7 @@
+port:
+  common:
+    eureka-server: 8000
+  service:
+    service-um: 8101
+  view:
+    customer-service: 8201

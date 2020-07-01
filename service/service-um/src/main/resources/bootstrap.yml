@@ -1,0 +1,15 @@
+server:
+  port: ${port.service.service-um}
+
+spring:
+  application:
+    name: service-um
+
+eureka:
+  instance:
+    appname: ${spring.application.name:service-um}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:${port.common.eureka-server}/eureka/
