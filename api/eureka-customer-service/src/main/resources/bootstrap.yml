@@ -1,0 +1,8 @@
+server:
+  port: ${port.view.eureka-customer-service}
+
+spring:
+  application:
+    name: eureka-customer-service
+  profiles:
+    include: eureka-service

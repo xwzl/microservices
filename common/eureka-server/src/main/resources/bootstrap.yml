@@ -1,16 +1,58 @@
 spring:
   application:
     name: eureka-server
-
 server:
-  port: ${port.common.eureka-server}
-
+  port: ${port.common.eureka-server1}
 eureka:
   instance:
+    appname: ${spring.application.name}
     hostname: localhost
-    appname: ${srping.application.name}
   client:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: http://localhost:${server.port}/eureka/
+      defaultZone: http://localhost:${port.common.eureka-server1}/eureka/
+  server:
+    # 关闭保护机制及时剔除不可用服务
+    enable-self-preservation: false
+    # 心跳检测时间间隔
+    eviction-interval-timer-in-ms: 2000
+
+---
+spring:
+  profiles: eureka-server1
+server:
+  port: ${port.common.eureka-server1}
+
+eureka:
+  instance:
+    # 集群一定要配置 hostname
+    hostname: server1
+  client:
+    service-url:
+      defaultZone: http://server1:${port.common.eureka-server1}/eureka/,http://server2:${port.common.eureka-server2}/eureka/,http://server3:${port.common.eureka-server3}/eureka/
+
+---
+spring:
+  profiles: eureka-server2
+server:
+  port: ${port.common.eureka-server2}
+eureka:
+  instance:
+    hostname: server2
+  client:
+    service-url:
+      defaultZone: http://server1:${port.common.eureka-server1}/eureka/,http://server2:${port.common.eureka-server2}/eureka/,http://server3:${port.common.eureka-server3}/eureka/
+
+---
+spring:
+  profiles: eureka-server3
+server:
+  port: ${port.common.eureka-server3}
+
+eureka:
+  instance:
+    hostname: server3
+  client:
+    service-url:
+      defaultZone: http://server1:${port.common.eureka-server1}/eureka/,http://server2:${port.common.eureka-server2}/eureka/,http://server3:${port.common.eureka-server3}/eureka/

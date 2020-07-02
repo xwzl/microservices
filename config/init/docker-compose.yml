@@ -1,0 +1,88 @@
+version: "3"
+services:
+  zoo1:
+    image: zookeeper
+    restart: always
+    hostname: zoo1
+    container_name: zoo1
+    ports:
+      - 2181:2181
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+  zoo2:
+    image: zookeeper
+    restart: always
+    hostname: zoo2
+    container_name: zoo2
+    ports:
+      - 2182:2181
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zoo3:2888:3888;2181
+  zoo3:
+    image: zookeeper
+    restart: always
+    hostname: zoo3
+    container_name: zoo3
+    ports:
+      - 2183:2181
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+  redis:
+    image: redis
+    restart: always
+    hostname: redis
+    container_name: redis
+    ports:
+      - 6379:6379
+  mysql:
+    image: mysql
+    restart: always
+    hostname: mysql
+    container_name: mysql
+    privileged: true
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASS: root
+      MYSQL_ROOT_HOST: '%'
+      TZ: Asia/Shanghai
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+  #      - /opt/mysql/my.cnf:/etc/mysql/my.cnf 编排挂载 MySQL 配置有一点问题
+  #      - ./mysql/my.cnf:/etc/my.cnf 编排挂载 MySQL 配置有一点问题
+  nacos-mysql:
+    image: mysql:5.7.28
+    restart: always
+    hostname: nacos-mysql
+    container_name: nacos-mysql
+    ports:
+      - 3307:3306
+    volumes:
+      - ./mysql/nacos:/var/lib/mysql
+      # 初始化数据脚本
+      - ./mysql/init:/docker-entrypoint-initdb.d/
+    environment:
+      MYSQL_DATABASE: nacos
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASS: root
+      TZ: Asia/Shanghai
+  nacos:
+    image: nacos/nacos-server
+    restart: always
+    hostname: nacos
+    container_name: nacos
+    privileged: true
+    ports:
+      - 8848:8848
+    volumes:
+      - ./nacos/conf/nacos.properties:/home/nacos/conf/application.properties
+    environment:
+      MODE: standalone
+    depends_on:
+      - nacos-mysql

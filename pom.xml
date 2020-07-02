@@ -11,7 +11,7 @@
     <description>This is a microservice demo !</description>
 
     <modules>
-        <module>view</module>
+        <module>api</module>
         <module>service</module>
         <module>common</module>
     </modules>
@@ -51,7 +51,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <dependency>

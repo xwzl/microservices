@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: nacos-um
+  profiles:
+    active: nacos-company
+
+server:
+  port: ${port.service.${spring.application.name}}
+

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: nacos-customer-service
+  profiles:
+    include: nacos-company
+
+server:
+  port: ${port.view.${spring.application.name}}

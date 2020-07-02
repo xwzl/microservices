@@ -15,8 +15,14 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>service-um</module>
+        <module>eureka-um</module>
+        <module>zookeeper-um</module>
+        <module>nacos-um</module>
     </modules>
+
+    <properties>
+        <zookeeper.version>3.6.1</zookeeper.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -33,7 +39,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>

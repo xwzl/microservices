@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.spring.cloud</groupId>
+        <artifactId>microservices</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <artifactId>api</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>api</name>
+
+    <modules>
+        <module>eureka-customer-service</module>
+        <module>zookeeper-customer-service</module>
+        <module>nacos-customer-service</module>
+    </modules>
+
+    <properties>
+        <zookeeper.version>3.6.1</zookeeper.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.spring.cloud</groupId>
+            <artifactId>common-module</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.spring.cloud</groupId>
+            <artifactId>common-starter</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagge.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.onsoul</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>swagger-bootstrap-ui</artifactId>
+            <version>${swagger-ui-boot.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

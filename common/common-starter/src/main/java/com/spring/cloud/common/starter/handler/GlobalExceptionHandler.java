@@ -9,12 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 全局异常同一处理
@@ -28,32 +24,21 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Throwable.class)
-    public void handleThrowable(Throwable e) throws IOException {
+    public ApiResult<?> handleThrowable(Throwable e) throws IOException {
         log.error("exception", e);
-        sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统错误");
+        return new ApiResult<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
     }
 
     @ExceptionHandler(ApiException.class)
-    public void handleApiException(ApiException e) throws IOException {
+    public ApiResult<?> handleApiException(ApiException e) throws IOException {
         log.error("api exception", e);
-        sendError(e.getCode(), e.getMessage());
+        return new ApiResult<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
     }
 
     @ExceptionHandler(ServiceException.class)
     public ApiResult<?> handleServiceException(ServiceException e) {
         log.error("service exception", e);
         return new ApiResult<>(e.getCode(), e.getMessage());
-    }
-
-    private void sendError(int code, String msg) throws IOException {
-        ServletRequestAttributes servletRequestAttributes =
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        assert servletRequestAttributes != null;
-        HttpServletResponse response = servletRequestAttributes.getResponse();
-        assert response != null;
-        response.setStatus(code);
-        response.getOutputStream().write(new ApiResult<>(code, msg).toString().getBytes(StandardCharsets.UTF_8));
-        response.setContentType("application/json;charset=UTF-8");
     }
 
 

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: zookeeper-um
+  profiles:
+    active: zookeeper-company
+
+server:
+  port: ${port.service.${spring.application.name}}

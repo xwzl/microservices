@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: eureka-um
+  profiles:
+    include: eureka-service
+    active: default
+---
+spring:
+  profiles: default
+server:
+  port: ${port.service.eureka-um1}
+
+---
+spring:
+  profiles: other
+server:
+  port: ${port.service.eureka-um2}

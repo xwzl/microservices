@@ -1,7 +1,63 @@
+ip:
+  company: 172.16.142.128
 port:
   common:
-    eureka-server: 8000
+    eureka-server1: 8001
+    eureka-server2: 8002
+    eureka-server3: 8003
   service:
-    service-um: 8101
+    # 随机端口用于集群配置（高可用）
+    #    service-um: ${random.int[8100,8200]}
+    eureka-um1: 8101
+    eureka-um2: 8102
+    zookeeper-um: 8103
+    nacos-um: 8104
   view:
-    customer-service: 8201
+    eureka-customer-service: 8201
+    zookeeper-customer-service: 8202
+    nacos-customer-service: 8203
+swagger:
+  print:
+    enable: true
+---
+spring:
+  profiles: nacos-company
+  cloud.nacos.discovery:
+    server-addr: ${ip.company}:8848
+    # 个人开发不建议使用，换了一套环境都要换
+    namespace: 901660ea-c6e3-4c81-b686-3fa69e489552
+    username: nacos
+    password: nacos
+    group: company
+    heartBeatInterval: 5
+    heartBeatTimeout: 10
+
+---
+# 启动慢建议放弃
+spring:
+  profiles: zookeeper-company
+  cloud.zookeeper:
+    connect-string: ${ip.company}:2181,${ip.company}:2182,${ip.company}:2183
+    discovery:
+      enabled: true
+      root: default
+
+---
+spring:
+  profiles: eureka-service
+eureka:
+  instance:
+    appname: ${spring.application.name}
+    # 修改 host 文件启用这个
+    #    instance-id: ${spring.application.name}
+    prefer-ip-address: true
+    # 心跳间隔时间
+    lease-renewal-interval-in-seconds: 1
+    # eureka 过期检测时间，过期则剔除服务
+    lease-expiration-duration-in-seconds: 2
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:${port.common.eureka-server1}/eureka/
+#      defaultZone: http://server1:${port.common.eureka-server1}/eureka/,http://server2:${port.common.eureka-server2}/eureka/,http://server3:${port.common.eureka-server3}/eureka/
