@@ -1,9 +1,6 @@
 spring:
   application:
     name: nacos-um
-  profiles:
-    active: nacos-company
-
-server:
-  port: ${port.service.${spring.application.name}}
-
+#book:
+#  name: 验证线刷请注释改配置
+#  price: 100

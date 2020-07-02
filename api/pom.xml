@@ -53,6 +53,10 @@
             <artifactId>swagger-bootstrap-ui</artifactId>
             <version>${swagger-ui-boot.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

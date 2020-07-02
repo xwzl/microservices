@@ -1,5 +1,19 @@
 ip:
   company: 172.16.142.128
+  home: 192.168.208.128
+
+spring:
+  profiles:
+    active: nacos-home
+
+# 以下配置都是兼容没有使用 Nacos Config 的组件
+swagger:
+  print:
+    enable: true
+
+application:
+  tips: 欢迎使用 Spring Cloud Alibaba
+
 port:
   common:
     eureka-server1: 8001
@@ -16,21 +30,35 @@ port:
     eureka-customer-service: 8201
     zookeeper-customer-service: 8202
     nacos-customer-service: 8203
-swagger:
-  print:
-    enable: true
+
 ---
 spring:
-  profiles: nacos-company
+  profiles: nacos-home
   cloud.nacos.discovery:
-    server-addr: ${ip.company}:8848
-    # 个人开发不建议使用，换了一套环境都要换
-    namespace: 901660ea-c6e3-4c81-b686-3fa69e489552
+    #    server-addr: ${ip.company}:8848
+    # 个人开发不建议使用
+    namespace: 8bfffac4-922c-4881-acf2-5150225a310b
+    server-addr: ${ip.home}:8848
     username: nacos
     password: nacos
-    group: company
+    group: ${spring.application.name}
     heartBeatInterval: 5
     heartBeatTimeout: 10
+  cloud.nacos.config:
+    # 完整 dataId 拼接格式：${prefix}-${spring.profile.active}.${file-extension}
+    # prefix: spring.application.name
+    server-addr: ${ip.home}:8848
+    namespace: 8bfffac4-922c-4881-acf2-5150225a310b
+    group: ${spring.application.name}
+    # dataId 的后缀与这个相同
+    file-extension: yml
+    extension-configs:
+      - dataId: base-config.yml
+        refresh: true
+        group: DEFAULT_GROUP
+      - dataId: host-config.yml
+        group: DEFAULT_GROUP
+        refresh: true
 
 ---
 # 启动慢建议放弃
