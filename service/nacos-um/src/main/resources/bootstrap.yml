@@ -2,6 +2,7 @@ spring:
   application:
     name: nacos-um
 
+
 ribbon:
   balance: true
 

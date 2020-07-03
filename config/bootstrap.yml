@@ -1,6 +1,15 @@
+spring:
+  profiles:
+    active: nacos-home
+    include: local
+
+---
+spring.profiles: local
+
 ip:
   company: 172.16.142.128
   home: 192.168.208.128
+
 # 以下配置都是兼容没有使用 Nacos Config 的组件
 swagger:
   print:
@@ -29,15 +38,19 @@ port:
     nacos-customer-service: 8203
     consul-customer-service: 8204
 
+# open feign 设置超时时间
+feign.client.config:
+  default:
+    readTimeout: 30000    # 链接超时时间
+    connectTimeout: 30000 # 建立连接后，服务响应超时时间
+    # NONE,BASIC,HEADERS,FULL
+    loggerLevel: headers
 
-#feign.client.config:
-#  default:
-#    readTimeout: 30000    # 链接超时时间
-#    connectTimeout: 30000 # 建立连接后，服务响应超时时间
-#    loggerLevel: basic
-spring:
-  profiles:
-    active: nacos-home
+# 配合使用 feign.client.config.default.loggerLevel: full 使用
+logging:
+  level:
+    # 配置 feign 打印日志，路径为 FeignService 的包路径
+    com.spring.cloud.common.module.feign: debug
 
 ---
 spring.profiles: consul-home
@@ -61,8 +74,8 @@ spring:
       server-addr: ${ip.home}:8848
       # 类似 zookeeper root 结点的含义，必须在相同节点才可访问
       # group: ${spring.application.name}
-      heartBeatInterval: 5
-      heartBeatTimeout: 10
+      heartBeatInterval: 30
+      heartBeatTimeout: 30
     config:
       # 完整 dataId 拼接格式：${prefix}-${spring.profile.active}.${file-extension}
       # prefix: spring.application.name
