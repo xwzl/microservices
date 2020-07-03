@@ -25,6 +25,12 @@ echo -e "${GREEN_COLOR}---> create [nacos]directory start.${RES}"
 if [ ! -d "./nacos/"  ]; then
 mkdir -p ./nacos/conf/
 fi
+
+echo -e "${GREEN_COLOR}---> create [consul]directory start.${RES}"
+if [ ! -d "./consul/"  ]; then
+mkdir -p ./consul/data1/ ./consul/data2/ ./consul/data3/
+fi
+
 echo -e "${BLUE_COLOR}===> create directory success.${RES}"
 
 if [ -d "./mysql/" ]; then

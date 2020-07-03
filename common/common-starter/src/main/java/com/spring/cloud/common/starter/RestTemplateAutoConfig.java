@@ -2,6 +2,7 @@ package com.spring.cloud.common.starter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,16 +16,17 @@ import org.springframework.web.client.RestTemplate;
  */
 @Slf4j
 @Configuration
-@ConditionalOnClass(name = {"org.springframework.web.client.RestTemplate"})
-public class RestAutoConfig {
+public class RestTemplateAutoConfig {
 
     /**
-     * LoadBalanced 负载均衡注解
+     * 服务调用方就是进行负载均衡的一方，利用 ribbon 的 RestTemplate 进行负载调用服务。
      */
     @Bean
     @LoadBalanced
+    @ConditionalOnClass(name = {"org.springframework.web.client.RestTemplate"})
+    @ConditionalOnProperty(prefix = "ribbon", name = "balance", havingValue = "true")
     public RestTemplate restTemplate() {
-        log.info("common start init rest load balance template ......");
+        log.info("Current system application load balance restTemplate bean .............");
         return new RestTemplate();
     }
 }

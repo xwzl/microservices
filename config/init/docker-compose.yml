@@ -86,3 +86,47 @@ services:
       MODE: standalone
     depends_on:
       - nacos-mysql
+#  consul1:
+#    image: consul
+#    restart: always
+#    hostname: consul1
+#    container_name: consul1
+#    privileged: true
+#    command: agent -server -bootstrap-expect=3 -node=consul1 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+#    volumes:
+#      - ./consul/data1:/consul/data
+#  consul2:
+#    image: consul
+#    restart: always
+#    hostname: consul2
+#    container_name: consul2
+#    privileged: true
+#    command: agent -server -retry-join=consul1 -node=consul2 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+#    volumes:
+#      - ./consul/data2:/consul/data
+#    depends_on:
+#      - consul1
+#  consul3:
+#    image: consul
+#    restart: always
+#    hostname: consul3
+#    container_name: consul3
+#    privileged: true
+#    command: agent -server -retry-join=consul1 -node=consul3 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+#    volumes:
+#      - ./consul/data3:/consul/data
+#    depends_on:
+#      - consul1
+#  consul4:
+#    image: consul
+#    restart: always
+#    hostname: consul4
+#    container_name: consul4
+#    command: agent -retry-join=consul1 -node=ndoe4 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1 -ui
+#    ports:
+#      - 8500:8500
+#    depends_on:
+#      - consul2
+#      - consul3
+
+

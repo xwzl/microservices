@@ -17,8 +17,8 @@ import java.net.URISyntaxException;
  * @since 2020/07/01 23:26
  */
 @Component
-@FeignClient(value = "nacos-um", contextId = "service-interface-one")
-public interface NacosUmService {
+@FeignClient("consul-um")
+public interface ConsulUmService {
 
     @PostMapping("/login/login")
     ApiResult<String> login(@RequestBody @Validated LoginVO loginVO);
@@ -28,7 +28,4 @@ public interface NacosUmService {
 
     @GetMapping("/rest/restBalance")
     ApiResult restBalance() throws URISyntaxException;
-
-    @GetMapping("/rest/balance")
-    ApiResult<Integer> balance();
 }

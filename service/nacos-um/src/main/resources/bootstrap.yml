@@ -1,6 +1,21 @@
 spring:
   application:
     name: nacos-um
+
+ribbon:
+  balance: true
+
+server:
+  port: ${port.service.${spring.application.name}}
+
+---
+spring.profiles: nacos-um-slave
+
+# -Dspring.profiles.include=nacos-um-slave
+server:
+  port: ${port.service.nacos-um-slave}
+
+
 #book:
 #  name: 验证线刷请注释改配置
 #  price: 100

@@ -9,19 +9,15 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>nacos-customer-service</artifactId>
+    <artifactId>consul-customer-service</artifactId>
     <version>1.0.0</version>
-    <name>nacos-customer-service</name>
+    <name>consul-customer-service</name>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
         </dependency>
     </dependencies>
 

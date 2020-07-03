@@ -2,8 +2,9 @@ spring:
   application:
     name: eureka-um
   profiles:
-    include: eureka-service
-    active: default
+    include: default
+    active: eureka-service
+
 ---
 spring:
   profiles: default

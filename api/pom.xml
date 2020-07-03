@@ -17,6 +17,7 @@
         <module>eureka-customer-service</module>
         <module>zookeeper-customer-service</module>
         <module>nacos-customer-service</module>
+        <module>consul-customer-service</module>
     </modules>
 
     <properties>
@@ -44,6 +45,10 @@
             <version>${swagge.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.github.onsoul</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger-ui.version}</version>
@@ -53,10 +58,7 @@
             <artifactId>swagger-bootstrap-ui</artifactId>
             <version>${swagger-ui-boot.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
+
     </dependencies>
     <build>
         <plugins>

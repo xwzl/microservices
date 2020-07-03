@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "ribbon.balance",
+      "type": "java.lang.String",
+      "description": "Description for ribbon.balance."
+    }
+  ]
+}

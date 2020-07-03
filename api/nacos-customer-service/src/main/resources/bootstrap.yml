@@ -6,5 +6,3 @@ spring:
 
 server:
   port: ${port.view.${spring.application.name}}
-
-

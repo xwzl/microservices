@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.spring.cloud.common.starter.StarterAutoConfig,\
   com.spring.cloud.common.starter.SwaggerAutoConfig,\
-  com.spring.cloud.common.starter.RestAutoConfig
+  com.spring.cloud.common.starter.RestTemplateAutoConfig,\
+  com.spring.cloud.common.starter.RibbonRuleAutoConfig
