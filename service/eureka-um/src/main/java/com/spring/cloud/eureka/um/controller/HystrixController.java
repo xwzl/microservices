@@ -23,11 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class HystrixController {
 
     /**
-     * 熔断：如果开启全局异常处理，服务降级回调写在服务端。
+     * 熔断:回调写 FeignClient 与业务解耦，不建议在此处写服务降级逻辑。
      */
     @GetMapping("randomException")
     @HystrixCommand(fallbackMethod = "randomExceptionHandler")
     public ApiResult<String> randomException() {
+        log.info("method start ");
         // 伪随机
         if (Math.random() > 0.5) {
             throw new ServiceException(ServiceCodeEnum.FAIL.getCode(), "hystrix fuse test .........");
@@ -50,16 +51,16 @@ public class HystrixController {
      * <p>
      * 熔断：请求数到达设定阈值后且失败次数大于设定百分比会进行熔断
      * <p>
-     * 服务提供者使用 @HystrixCommand，将会是客户端的熔断失效。
+     * 客服端使用 @HystrixCommand，客户端的熔断失效。
      */
     @GetMapping("blockingSimulation")
     @HystrixCommand(fallbackMethod = "blockingSimulationHandler", commandProperties = {
             // 方法执行时间超过两秒钟将触发服务降级，服务降级会触发回调方法
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "300")
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "100")
     })
     public ApiResult<String> blockingSimulation() {
         //long time = (long) (Math.random() * 10000);
-        long time = (long) (Math.random() * 500);
+        long time = (long) (Math.random() * 300);
         try {
             log.info("Thread sleep time {}", time);
             // ps: time 大于超时时间直接抛出异常，进行过方法拦截么？

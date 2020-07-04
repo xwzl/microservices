@@ -1,6 +1,6 @@
 package com.spring.cloud.view.eureka.controller;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.spring.cloud.common.module.feign.EurekaUmService;
 import com.spring.cloud.common.until.ApiResult;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,9 @@ import javax.annotation.Resource;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 熔断测试
+ * 熔断：
+ * <p>
+ * 注解 @DefaultProperties 对熔断器没有影响，@HystrixCommand 客户端书写造成熔断器失效。
  *
  * @author xuweizhi
  * @since 2020/07/04 15:51
@@ -20,6 +22,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 @RestController
 @RequestMapping("hystrix")
+// 配置默认的降级方法
+@DefaultProperties(defaultFallback = "defaultFallBack")
 public class HystrixController {
 
     @Resource
@@ -33,17 +37,12 @@ public class HystrixController {
     /**
      * 熔断器打开后会对调用的 feign 服务直接调用降级服务，知道时间窗口的时间到达后才会重新尝试该服务是否可用。
      */
-    @HystrixCommand(fallbackMethod = "randomExceptionHandlers")
     @GetMapping("randomException")
+    //@HystrixCommand(fallbackMethod = "defaultFallBack")
     public ApiResult<String> randomException() {
         ApiResult<String> result = eurekaUmService.randomException();
         printFeignInfo(result);
         return result;
-    }
-
-    public ApiResult<String> randomExceptionHandlers() {
-        log.info("服务降级");
-        return new ApiResult<>("EurekaCustomerService 熔断");
     }
 
     private void printFeignInfo(ApiResult<String> result) {
@@ -62,24 +61,24 @@ public class HystrixController {
      * <p>
      * 当一个方法内调用了多个服务只对第一个服务进行熔断，哈哈哈！
      * <p>
-     * 注解  @HystrixCommand 只对当前服务产生的异常进行降级调用，对服务提供者的降级调用不会有影响。
+     * 注解  @HystrixCommand 只对当前服务产生的异常进行降级调用，对服务提供者的降级调用不会有影响（熔断器失效，本引异常
+     * 熔断的服务依然会被调用）。
+     *
+     * 服务熔断时优先使用 FeignClient 客户端的服务降级逻辑，然后时间窗口到期后使用服务提供者的降级逻辑（服务异常的情况下）。
      */
-    @HystrixCommand(fallbackMethod = "blockingSimulationHandlers")
     @GetMapping("blockingSimulation")
     public ApiResult<String> blockingSimulation() {
-        log.info("开始调用接口");
-        ApiResult<String> result1 = eurekaUmService.randomException();
-        // 只会对最后一个 feign 的调用进行熔断处理
+        //log.info("开始调用接口");
+        //ApiResult<String> result1 = eurekaUmService.randomException();
+        // 只会对第一个 feign 的调用进行熔断处理
         ApiResult<String> result = eurekaUmService.blockingSimulation();
-        log.info(result1.toString());
+        //log.info(result1.toString());
         log.info(result.toString());
         return null;
-
-
     }
 
-    public ApiResult<String> blockingSimulationHandlers() {
-        log.info("服务降级");
-        return new ApiResult<>("EurekaCustomerService 客户端超时触发服务降级");
+    public ApiResult<String> defaultFallBack() {
+        log.info("默认降级方法");
+        return new ApiResult<>("默认降级方法");
     }
 }

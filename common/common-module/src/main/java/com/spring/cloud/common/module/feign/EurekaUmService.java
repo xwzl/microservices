@@ -47,9 +47,7 @@ public interface EurekaUmService {
         }
 
         /**
-         * 服务提供者写了回调方法，此回调失效。
-         * <p>
-         * 如果开启了全局异常处理，此处回调失效，请写在服务提供者。
+         * 客户端加入 @HystrixCommand 注解，熔断器是失效。
          */
         @Override
         public ApiResult<String> randomException() {
