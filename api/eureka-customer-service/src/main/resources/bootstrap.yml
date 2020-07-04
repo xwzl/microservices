@@ -6,3 +6,23 @@ spring:
     name: eureka-customer-service
   profiles:
     include: eureka-service
+
+feign:
+  hystrix:
+    enabled:  true # 开启断路器
+
+
+hystrix:
+  command:
+    default: # 全局默认的熔断设置
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 # 注解配置失效
+      circuitBreaker:
+        # 在当 20 秒的时间内，最近 50 次调用请求，请求错误率超过60%，则触发熔断 20 秒，期间快速失败。
+        requestVolumeThreshold: 50
+        errorThresholdPercentage: 10
+        sleepWindowInMilliseconds: 20000
+      metrics:
+        rollingStats: 20000

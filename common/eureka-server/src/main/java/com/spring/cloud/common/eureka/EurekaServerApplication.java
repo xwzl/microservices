@@ -11,6 +11,9 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  * http://localhost:8000/  控制台
  * http://localhost:8000/eureka/ 服务注册地址
  *
+ *
+ * server 启动需要把 根目录下 config/bootstrap.yml 文件中 spring.profiles.active 注释掉
+ *
  * @author xuweizhi
  * @since 2020/07/01 22:48
  */

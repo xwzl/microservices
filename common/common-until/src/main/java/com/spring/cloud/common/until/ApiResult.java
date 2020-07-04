@@ -2,6 +2,7 @@ package com.spring.cloud.common.until;
 
 import com.spring.cloud.common.until.enums.ServiceCodeEnum;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * 统一封装返回对象
@@ -10,6 +11,7 @@ import lombok.Data;
  * @since 2020/07/01 23:31
  */
 @Data
+@ToString
 public class ApiResult<T> {
 
     private Integer code;
@@ -22,8 +24,8 @@ public class ApiResult<T> {
     }
 
     public ApiResult(T data) {
-        this.code= ServiceCodeEnum.SUCCESS.getCode();
-        this.message=ServiceCodeEnum.SUCCESS.getMessage();
+        this.code = ServiceCodeEnum.SUCCESS.getCode();
+        this.message = ServiceCodeEnum.SUCCESS.getMessage();
         this.data = data;
     }
 

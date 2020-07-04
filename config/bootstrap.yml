@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: nacos-home
+    active: eureka-service
     include: local
 
 ---
@@ -44,7 +44,7 @@ feign.client.config:
     readTimeout: 30000    # 链接超时时间
     connectTimeout: 30000 # 建立连接后，服务响应超时时间
     # NONE,BASIC,HEADERS,FULL
-    loggerLevel: headers
+    loggerLevel: none
 
 # 配合使用 feign.client.config.default.loggerLevel: full 使用
 logging:

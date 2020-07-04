@@ -15,8 +15,8 @@ eureka:
   server:
     # 关闭保护机制及时剔除不可用服务
     enable-self-preservation: false
-    # 心跳检测时间间隔
-    eviction-interval-timer-in-ms: 2000
+    # 心跳检测时间间隔设置长一些，加入熔断后由于心跳间隔时间，有可能导致服务调用被停
+    eviction-interval-timer-in-ms: 30000
 
 ---
 spring:

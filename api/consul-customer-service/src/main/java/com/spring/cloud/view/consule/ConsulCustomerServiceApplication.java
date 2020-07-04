@@ -1,11 +1,11 @@
-package com.spring.cloud.eureka.um;
+package com.spring.cloud.view.consule;
 
 import com.spring.cloud.common.until.warning.ReflectionUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * 用户管理模块
@@ -13,14 +13,14 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author xuweizhi
  * @since 2020/07/01 23:03
  */
-@EnableCircuitBreaker // 熔断注解
+@EnableSwagger2
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableFeignClients(basePackages = "com.spring.cloud.common.module.feign")
-public class UmServiceApplication {
+public class ConsulCustomerServiceApplication {
 
     public static void main(String[] args) {
         ReflectionUtil.disableAccessWarnings();
-        SpringApplication.run(UmServiceApplication.class, args);
+        SpringApplication.run(ConsulCustomerServiceApplication.class, args);
     }
 }
