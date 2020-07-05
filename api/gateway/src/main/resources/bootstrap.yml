@@ -1,0 +1,11 @@
+server:
+  port: ${port.api.${spring.application.name}}
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id:
+

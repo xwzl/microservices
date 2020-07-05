@@ -5,23 +5,22 @@
 
     <parent>
         <groupId>com.spring.cloud</groupId>
-        <artifactId>microservices</artifactId>
+        <artifactId>api</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>common</artifactId>
+    <artifactId>consul-custome</artifactId>
     <version>1.0.0</version>
-    <packaging>pom</packaging>
-    <name>common</name>
+    <name>consul-customer</name>
+    <packaging>jar</packaging>
 
-    <modules>
-        <module>eureka-server</module>
-        <module>common-module</module>
-        <module>common-starter</module>
-        <module>common-until</module>
-        <module>hystrix-dashboard</module>
-        <module>actuator-server</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>

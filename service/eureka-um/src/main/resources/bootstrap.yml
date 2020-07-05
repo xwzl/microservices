@@ -5,11 +5,17 @@ spring:
     active: eureka-service
     include: default
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
 # 与 @HystrixCommand 注解不冲突
-#feign:
-#  hystrix:
-#    enabled:  true # 开启断路器
-#
+feign:
+  hystrix:
+    enabled:  true # 开启断路器
+
 #hystrix:
 #  command:
 #    default: # 全局默认的熔断设置

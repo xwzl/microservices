@@ -47,7 +47,7 @@ public interface EurekaUmService {
         }
 
         /**
-         * 客户端加入 @HystrixCommand 注解，熔断器是失效。
+         * 客户端加入 @HystrixCommand 注解，熔断器有效。
          */
         @Override
         public ApiResult<String> randomException() {

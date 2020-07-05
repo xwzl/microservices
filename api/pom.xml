@@ -14,10 +14,11 @@
     <name>api</name>
 
     <modules>
-        <module>eureka-customer-service</module>
-        <module>zookeeper-customer-service</module>
-        <module>nacos-customer-service</module>
-        <module>consul-customer-service</module>
+        <module>eureka-customer</module>
+        <module>zookeeper-customer</module>
+        <module>nacos-customer</module>
+        <module>consul-customer</module>
+        <module>gateway</module>
     </modules>
 
     <properties>

@@ -23,6 +23,8 @@ port:
     eureka-server1: 8001
     eureka-server2: 8002
     eureka-server3: 8003
+    hystrix-dashboard: 8004
+    actuator-server: 8005
   service:
     # 随机端口用于集群配置（高可用）
     #    service-um: ${random.int[8100,8200]}
@@ -32,12 +34,12 @@ port:
     nacos-um: 8104
     nacos-um-slave: 8105
     consul-um: 8106
-  view:
-    eureka-customer-service: 8201
-    zookeeper-customer-service: 8202
-    nacos-customer-service: 8203
-    consul-customer-service: 8204
-
+  api:
+    eureka-customer: 8201
+    zookeeper-customer: 8202
+    nacos-customer: 8203
+    consul-customer: 8204
+    gateway: 9000
 # open feign 设置超时时间
 feign.client.config:
   default:

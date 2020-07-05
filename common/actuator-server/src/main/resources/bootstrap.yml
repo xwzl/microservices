@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: actuator-server
+
+server:
+  port: ${port.common.actuator-server}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
