@@ -24,14 +24,4 @@ public class EurekaCustomerApplication {
         ReflectionUtil.disableAccessWarnings();
         SpringApplication.run(EurekaCustomerApplication.class, args);
     }
-
-    // 建议用 http://localhost:8201/actuator/hystrix.stream
-    //@Bean
-    //public ServletRegistrationBean<HystrixMetricsStreamServlet> hystrixMetricsStreamServlet() {
-    //    ServletRegistrationBean<HystrixMetricsStreamServlet> register = new ServletRegistrationBean<>(new HystrixMetricsStreamServlet());
-    //    register.setLoadOnStartup(1);
-    //    register.setName("hystrixMetricsStreamServlet");
-    //    register.addUrlMappings("/hystrix.stream");
-    //    return register;
-    //}
 }

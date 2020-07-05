@@ -40,6 +40,7 @@ port:
     nacos-customer: 8203
     consul-customer: 8204
     gateway: 9000
+    zipkin-server: 9411
 # open feign 设置超时时间
 feign.client.config:
   default:

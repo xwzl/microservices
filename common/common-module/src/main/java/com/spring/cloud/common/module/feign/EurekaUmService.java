@@ -33,6 +33,9 @@ public interface EurekaUmService {
     @GetMapping("/hystrix/blockingSimulation")
     ApiResult<String> blockingSimulation();
 
+    @GetMapping("/rest/balance")
+    ApiResult<Integer> balance();
+
     @Component
     class EurekaUmServiceImpl implements EurekaUmService {
 
@@ -57,6 +60,11 @@ public interface EurekaUmService {
         @Override
         public ApiResult<String> blockingSimulation() {
             return new ApiResult<>(" open feign blockingSimulation 服务降级");
+        }
+
+        @Override
+        public ApiResult<Integer> balance() {
+            return null;
         }
     }
 

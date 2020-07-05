@@ -30,7 +30,7 @@ public class HystrixController {
     @Resource
     private EurekaUmService eurekaUmService;
 
-    private final static AtomicInteger failCounter = new AtomicInteger(1);
+    private final static  AtomicInteger failCounter = new AtomicInteger(1);
     private final static AtomicInteger successCounter = new AtomicInteger(1);
     private static int FAIL_COUNT = 0;
     private static int SUCCESS_COUNT = 0;
@@ -46,7 +46,7 @@ public class HystrixController {
         return result;
     }
 
-    private void printFeignInfo(ApiResult<String> result) {
+    private static void printFeignInfo(ApiResult<String> result) {
         if (result.getData() == null) {
             FAIL_COUNT = failCounter.getAndIncrement();
         } else {

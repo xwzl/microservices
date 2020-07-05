@@ -3,9 +3,14 @@ spring:
     name: eureka-customer
   profiles:
     include: eureka-service
-
+  zipkin:
+    base-url: http://${ip.home}:9411/
+  sleuth:
+    sampler:
+      percentage: 1.0
 server:
   port: ${port.api.${spring.application.name}}
+
 
 feign:
   hystrix:
@@ -15,7 +20,7 @@ management:
   endpoints:
     web:
       exposure:
-#        include: hystrix.stream,health
+        #        include: hystrix.stream,health
         include: '*'
 #  endpoint:
 #    health:

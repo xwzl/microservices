@@ -1,5 +1,6 @@
 package com.spring.cloud.eureka.um.controller;
 
+import com.spring.cloud.common.until.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -30,6 +31,11 @@ public class LoadBalanceController {
 
     @Value("${spring.application.name}")
     private String name;
+
+    @GetMapping("balance")
+    public ApiResult<Integer> balance() {
+        return new ApiResult<>(port);
+    }
 
     @GetMapping("discovery")
     public DiscoveryClient discoveryInfo() {

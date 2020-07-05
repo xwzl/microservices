@@ -1,6 +1,7 @@
 package com.spring.cloud.view.eureka.controller;
 
 import com.spring.cloud.common.module.feign.EurekaUmService;
+import com.spring.cloud.common.until.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,5 +27,12 @@ public class LoadBalanceController {
     @GetMapping("discovery")
     public DiscoveryClient discoveryInfo() {
         return eurekaUmService.discoveryInfo();
+    }
+
+    @GetMapping("restBalance")
+    public ApiResult<Integer> restBalance() {
+        ApiResult<Integer> balance = eurekaUmService.balance();
+        log.info("{}", balance.getData());
+        return balance;
     }
 }

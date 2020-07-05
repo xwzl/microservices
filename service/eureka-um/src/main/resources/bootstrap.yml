@@ -4,7 +4,11 @@ spring:
   profiles:
     active: eureka-service
     include: default
-
+  zipkin:
+    base-url: http://${ip.home}:9411/
+  sleuth:
+    sampler:
+      percentage: 1.0
 management:
   endpoints:
     web:

@@ -86,6 +86,14 @@ services:
       MODE: standalone
     depends_on:
       - nacos-mysql
+  zipkin:
+    image: openzipkin/zipkin
+    restart: always
+    hostname: zipkin
+    container_name: zipkin
+    privileged: true
+    ports:
+      - 9411:9411
 #  consul1:
 #    image: consul
 #    restart: always

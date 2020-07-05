@@ -2,10 +2,7 @@ package com.spring.cloud.view.eureka.controller;
 
 import com.spring.cloud.common.until.ApiResult;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 网关调用
@@ -22,5 +19,18 @@ public class GatewayController {
     public ApiResult<String> route(@RequestParam("path") String path) {
         log.info("Current http request's path {}", path);
         return new ApiResult<>(path);
+    }
+
+    @PostMapping("post")
+    public ApiResult<String> post() {
+        return new ApiResult<>("" + System.currentTimeMillis());
+    }
+
+    @GetMapping("hystrix")
+    public ApiResult<String> hystrix() {
+        if(Math.random() > 0.5){
+            throw new RuntimeException();
+        }
+        return new ApiResult<>("" + System.currentTimeMillis());
     }
 }

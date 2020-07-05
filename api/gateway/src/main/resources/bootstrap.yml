@@ -1,11 +1,98 @@
-server:
-  port: ${port.api.${spring.application.name}}
-
 spring:
   application:
     name: gateway
+  redis:
+    host: 192.168.208.128
+    port: 6379
+    timeout: 20000
+  profiles:
+    include: gateway
+  zipkin:
+    base-url: http://${ip.home}:9411/
+  sleuth:
+    sampler:
+      percentage: 1.0
+server:
+  port: ${port.api.${spring.application.name}}
+
+#logging:
+#  level:
+#    # log 级别
+#    org.springframework.cloud.gateway: debug
+
+---
+spring.profiles: gateway
+
+spring:
   cloud:
     gateway:
+      discovery:
+        locator:
+          # 是否和服务注册与发现组件结合，设置为 true 后可以直接使用应用名称调用服务
+          enabled: true
       routes:
-        - id:
+        # 访问 http://localhost:9000 即访问 http://localhost:${port.api.eureka-customer}
+        - id: cs
+          uri: lb://eureka-customer # 匹配后的提供服务的路由地址
+          predicates:
+            # /api/cs 路径将被拦截掉
+            - Path=/api/cs/**        # 断言路径相匹配的进行路由
+          filters:
+            # 截取路径位数，用于为服务加统一前缀名作为区分服务
+            # http://localhost:9000/api/cs/gateway/route 截取前两位字符串转发后地址为 http://localhost:8201/gateway/route
+            - StripPrefix=2
+        - id: method_predicate
+          uri: lb://eureka-customer
+          predicates: # 断言
+            - After=2017-01-20T17:42:47.789-07:00[America/Denver] # 时间再此之后 url 才有效
+            #- Before=2017-01-20T17:42:47.789-07:00[America/Denver] # 时间再此之前 url 才有效
+            #- Between= 在此之间的时间
+            - Path=/method_add/**
+            #- Method=Get
+            #[{"key":"Cookie","value":"version=1.0.0;user=11","description":"","type":"text","enabled":false}]
+            #- Cookie=version,1.0.0 # 版本号 version=1.0.0
+            # [{"key":"signal","value":"fix","description":"","type":"text","enabled":true}]
+            # - Header=signal,fix
+            #- Method=Get,Post
+          filters:
+            - StripPrefix=1
+            # 添加指定参数 path=apple
+            - AddRequestParameter=path,apple
+            - Name: Hystrix  # 熔断
+              args:
+                name: fallbackcmd
+                # fallback 时调用的方法 http://localhost:9000/fallback
+                fallbackUri: forward:/fallback
+            # https://cloud.spring.io/spring-cloud-gateway/2.2.x/reference/html/#gateway-request-predicates-factories
+            - name: RequestRateLimiter  # 限流
+              args:
+                # 限流过滤器的 Bean 名称
+                key-resolver: '#{@hostAddrKeyResolver}'
+                # 令牌桶每秒填充平均速率,希望允许用户每秒处理多少个请求
+                redis-rate-limiter.replenishRate: 10
+                # 每次请求消耗一个
+                redis-rate-limiter.requestedTokens: 1
+                # 令牌桶总容量,用户允许在一秒钟内完成的最大请求数
+                redis-rate-limiter.burstCapacity: 30
 
+
+---
+spring.profiles: gateway-test
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          # 是否和服务注册与发现组件结合，设置为 true 后可以直接使用应用名称调用服务
+          enabled: true
+      routes:
+        # 访问 http://localhost:9000 即访问 http://localhost:${port.api.eureka-customer}
+        - id: api-gateway-test
+          uri: lb://eureka-customer # 匹配后的提供服务的路由地址
+          predicates:
+            - Path=/gateway/**         # 断言路径相匹配的进行路由
+        - id: api-gateway-um           # 路由的 id ,全局唯一即可
+          uri: http://localhost:8201 # 匹配后的提供服务的路由地址
+          predicates:
+            - Path=/login/**       # 断言路径相匹配的进行路由
