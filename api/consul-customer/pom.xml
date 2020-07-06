@@ -9,7 +9,7 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>consul-custome</artifactId>
+    <artifactId>consul-customer</artifactId>
     <version>1.0.0</version>
     <name>consul-customer</name>
     <packaging>jar</packaging>
