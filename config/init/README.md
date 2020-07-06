@@ -68,7 +68,7 @@ docker-compose 编排启动环境
     
     docker-compose up -d # 后台方式启动服务    
 
-    docker-compose up logs --tf --tail # 后台方式启动查看 docker 运行日志
+    docker-compose up logs --tf --tail 50 # 后台方式启动查看 docker 运行日志
     
     docker-compose down  # 停止服务
     

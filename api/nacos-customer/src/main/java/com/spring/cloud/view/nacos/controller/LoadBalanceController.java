@@ -1,16 +1,15 @@
 package com.spring.cloud.view.nacos.controller;
 
-import com.spring.cloud.view.nacos.config.LoadBalancer;
 import com.spring.cloud.common.module.feign.NacosUmService;
 import com.spring.cloud.common.starter.RestTemplateAutoConfig;
 import com.spring.cloud.common.starter.StarterAutoConfig;
 import com.spring.cloud.common.until.ApiResult;
+import com.spring.cloud.view.nacos.config.LoadBalancer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +31,6 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("rest")
-@FeignClient
 public class LoadBalanceController {
 
     @Resource
