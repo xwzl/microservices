@@ -26,6 +26,11 @@ if [ ! -d "./nacos/"  ]; then
 mkdir -p ./nacos/conf/
 fi
 
+echo -e "${VIOLET_COLOR}---> create [nginx]directory start.${RES}"
+if [ ! -d "./nginx/" ]; then
+mkdir -p ./nginx/conf ./nginx/logs ./nginx/www
+fi
+
 echo -e "${GREEN_COLOR}---> create [consul]directory start.${RES}"
 if [ ! -d "./consul/"  ]; then
 mkdir -p ./consul/data1/ ./consul/data2/ ./consul/data3/
@@ -44,6 +49,11 @@ echo -e "${BLUE_COLOR}---> move [elasticsearch]config file start.${RES}"
 echo -e "${VIOLET_COLOR}---> move [mysql]config file start.${RES}"
 if [ -f "./my.cnf" ]; then
 mv ./my.cnf ./mysql/conf
+fi
+
+echo -e "${VIOLET_COLOR}---> move [nginx]config file start.${RES}"
+if [ -f "./nginx.conf" ]; then
+mv ./nginx.conf ./nginx/conf
 fi
 
 echo -e "${VIOLET_COLOR}---> move [nacos]config file start.${RES}"

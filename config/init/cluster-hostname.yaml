@@ -1,0 +1,88 @@
+version: "3"
+services:
+  redis:
+    image: redis
+    restart: always
+    hostname: redis
+    container_name: redis
+    ports:
+      - 6379:6379
+  nacos1:
+    hostname: nacos1
+    container_name: nacos1
+    image: nacos/nacos-server:latest
+    volumes:
+      - ./env/plugins/mysql/:/home/nacos/plugins/mysql/ # mysql 8.0 驱动
+      - ./cluster-logs/nacos1:/home/nacos/logs
+      - ./env/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    ports:
+      - "8848:8848"
+      - "9555:9555"
+    env_file:
+      - ./env/nacos-hostname.env
+    restart: always
+    depends_on:
+      - mysql
+  nacos2:
+    hostname: nacos2
+    image: nacos/nacos-server:latest
+    container_name: nacos2
+    volumes:
+      - ./env/plugins/mysql/:/home/nacos/plugins/mysql/ # mysql 8.0 驱动
+      - ./cluster-logs/nacos2:/home/nacos/logs
+      - ./env/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    ports:
+      - "8849:8848"
+    env_file:
+      - ./env/nacos-hostname.env
+    restart: always
+    depends_on:
+      - mysql
+  nacos3:
+    hostname: nacos3
+    image: nacos/nacos-server:latest
+    container_name: nacos3
+    volumes:
+      - ./env/plugins/mysql/:/home/nacos/plugins/mysql/ # mysql 8.0 驱动
+      - ./cluster-logs/nacos3:/home/nacos/logs
+      - ./env/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    ports:
+      - "8850:8848"
+    env_file:
+      - ./env/nacos-hostname.env
+    restart: always
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql
+    restart: always
+    hostname: mysql
+    container_name: mysql
+    privileged: true
+    environment:
+      MYSQL_DATABASE: nacos
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASS: root
+      MYSQL_ROOT_HOST: '%'
+      TZ: Asia/Shanghai
+    volumes:
+      - ./nacos/mysql:/var/lib/mysql
+      - ./nacos/init:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+  nginx:
+    container_name: nginx
+    image: nginx
+    restart: always
+    ports:
+      - 8000:8000
+      - 443:443
+    volumes:
+      - ./nginx/www:/usr/share/nginx/html
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - nacos1
+      - nacos2
+      - nacos3
