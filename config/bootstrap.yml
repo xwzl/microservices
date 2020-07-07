@@ -1,14 +1,12 @@
 spring:
   profiles:
-    active: eureka-service
-    include: local
-
----
-spring.profiles: local
-
+    active: nacos-home
+#    include: local # nacos 以外的服务必须依赖
 ip:
   company: 172.16.142.128
   home: 192.168.208.128
+---
+spring.profiles: local
 
 # 以下配置都是兼容没有使用 Nacos Config 的组件
 swagger:
