@@ -1,5 +1,6 @@
 package com.spring.cloud.nacos.um.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.spring.cloud.common.until.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,6 +54,7 @@ public class LoadBalanceController {
         return null;
     }
 
+    @SentinelResource("/happy")
     @GetMapping("balance")
     public ApiResult<Integer> balance() {
         return new ApiResult<>(port);

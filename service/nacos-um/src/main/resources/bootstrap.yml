@@ -1,8 +1,11 @@
 spring:
   application:
     name: nacos-um
-
-
+#  cloud:
+#    sentinel:
+#      transport:
+#        port: 8000
+#        dashboard: ${ip.company}:8858
 ribbon:
   balance: true
 
