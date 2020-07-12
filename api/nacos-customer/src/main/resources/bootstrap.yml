@@ -4,5 +4,6 @@ spring:
   profiles:
     include: nacos-company
 
+
 server:
   port: ${port.api.${spring.application.name}}

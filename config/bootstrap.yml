@@ -94,6 +94,9 @@ management:
     web:
       exposure:
         include: '*'
+feign:
+  sentinel:
+    enabled: true
 ---
 spring:
   profiles: nacos-home
@@ -129,6 +132,22 @@ spring:
       transport:
         port: 8000
         dashboard: ${ip.home}:8858
+      # 配置需要在 nacos 中手动配置一遍，有点蠢
+      datasource:
+        ds1:
+          nacos:
+            server-addr: ${ip.home}:8000
+            namespace: 0d7426a5-b72c-4e00-995c-c7cdcc693c3f
+            dataId: ${spring.application.name}
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow
+
+# 激活 sentinel 对 feign 的支持
+feign:
+  sentinel:
+    enabled: true
+
 management:
   endpoints:
     web:
