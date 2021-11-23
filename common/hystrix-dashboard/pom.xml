@@ -39,7 +39,7 @@
             <artifactId>spring-cloud-netflix-hystrix-dashboard</artifactId>
             <!--2.2.3.RELEASE 以上版本的 jquery 兼容有问题-->
             <!--https://github.com/MadeInChina/spring-cloud-netflix/commit/afc1d989767d0a21524b865dafeebc37d4c78e04-->
-            <version>2.2.2.RELEASE</version>
+            <version>2.2.10.RELEASE</version>
         </dependency>
     </dependencies>
 
